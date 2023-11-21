@@ -231,6 +231,35 @@ void visualization(int n, Robot robot, int step, Robot p[], Robot pr[])
 
 int main()
 {
+    // interaction with robot
+    Robot myrobot;
+    // myrobot.set(10.0, 10.0, 0); // set new position
+    // cout << "set position to: " << myrobot.show_pose() << endl;
+    // myrobot.move(M_PI / 2, 10);
+    // cout << "after rotation" << myrobot.show_pose() << endl;
+    // cout << "the distance between robot and landmarks : " << myrobot.read_sensors() << endl;
+    //---------------------------------------------
+    // motion and sensing
+    myrobot.set(30, 50, M_PI / 2);
+    myrobot.move(-M_PI / 2, 15);
+    cout << "distance to landmarks: " << myrobot.read_sensors() << endl;
+    myrobot.move(-M_PI / 2, 10);
+    cout << "after reposition, distance to landmarks: " << myrobot.read_sensors() << endl;
+    double Forward_Noise = 5.0, Turn_Noise = 0.1, Sense_Noise = 5.0;
+    myrobot.set_noise(Forward_Noise, Turn_Noise, Sense_Noise);
+    //-------------------------------------
+    // generate 1000 particles with simulate noise
+    // simulating them by rotating and moving them forward
+    Robot p[1000];
+    string pose = "[";
+    for (int i = 0; i < 1000; i++)
+    {
+        p[i].set_noise(Forward_Noise, Turn_Noise, Sense_Noise);
+        // p[i].move(0.1, 5.0);
+        pose += " , particle (" + to_string(i) + ") " + p[i].show_pose() + "\n";
+    }
+    pose += "]";
+    cout << pose << endl;
 
     return 0;
 }
